@@ -1,0 +1,124 @@
+---
+title: "Assignment 4"
+author: "raman"
+date: "June 5, 2019"
+output: pdf_document
+---
+```{r}
+library(rpart)
+```
+
+```{r}
+library(mlbench)
+```
+```{r}
+library(mice)
+```
+```{r}
+data("BreastCancer")
+```
+
+```{r}
+dataset_impute <- mice(BreastCancer[,2:10],  print = FALSE)
+```
+```{r}
+BreastCancer <- cbind(BreastCancer[,11, drop = FALSE], mice::complete(dataset_impute, 1))
+```
+
+```{r}
+str(BreastCancer)
+```
+```{r}
+unique(BreastCancer$Class)
+```
+
+```{r}
+summary(BreastCancer)
+```
+
+
+```{r}
+testidx <- which(1:length(BreastCancer[,1])%%5 == 0)
+```
+
+```{r}
+bdatasettrain <- BreastCancer[-testidx,]
+```
+
+```{r}
+bdatasettest <- BreastCancer[testidx,]
+```
+
+```{r}
+library(e1071)
+```
+
+```{r}
+NB_model <- naiveBayes(Class~., data = BreastCancer)
+```
+
+```{r}
+prediction <-predict(NB_model, BreastCancer[,-5])
+```
+
+```{r}
+table(prediction, BreastCancer[,5])
+```
+```{r}
+topredict_set<-bdatasettest[2:10]         
+```
+
+```{r}
+library(caTools)
+```
+```{r}
+library(caret)
+```
+```{r}
+preds_nb <- predict(NB_model, topredict_set)
+```
+
+```{r}
+conf_matrix_nb <- table(preds_nb, bdatasettest$Class)
+```
+```{r}
+confusionMatrix(conf_matrix_nb)
+```
+#Accuracy is 97.12% using Naive Bayes for positive class benign
+```{r}
+library(randomForest)
+```
+
+```{r}
+model_rf <- randomForest(Class ~ ., data = bdatasettrain, importance=TRUE, ntree = 5)
+```
+```{r}
+preds_rf <- predict(model_rf, topredict_set)
+```
+
+```{r}
+conf_matrix_forest <- table(preds_rf, bdatasettest$Class)
+```
+
+```{r}
+confusionMatrix(conf_matrix_forest) # Accuracy is 96.4% for benign class
+```
+```{r}
+model_dtree<- rpart(Class ~ ., data=bdatasettrain)
+```
+
+```{r}
+preds_dtree <- predict(model_dtree,newdata=topredict_set, type = "class")
+```
+
+```{r}
+(conf_matrix_dtree <- table(preds_dtree, bdatasettest$Class))
+```
+```{r}
+confusionMatrix(conf_matrix_dtree)    #Accuracy is 94.24% for benign class
+```
+#Therefore, the naive bayes algorithium gives highest accuracy, proves and fits the model most. Followed by the perfomance of random forest and than decison tree. 
+
+
+
+
