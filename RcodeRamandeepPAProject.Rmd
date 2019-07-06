@@ -1,0 +1,317 @@
+---
+title: "PAproject"
+author: "raman"
+date: "June 8, 2019"
+output: pdf_document
+---
+#Reading .csv file
+```{r}
+df<-read.csv("electricity.csv",TRUE,",") 
+```
+#reading dimensions of the data
+```{r}
+dim(df)   
+```
+#created a numerical based dataset to check the corelation among the dataset.
+```{r}
+dd<-data.frame(df$tau1,df$tau2,df$tau3,df$tau4,df$p1,df$p2,df$p3,df$p4,df$g1,df$g2,df$g3,df$g4,df$stab) 
+```
+```{r}
+library(corrplot) 
+```
+
+```{r}
+M<-cor(dd)
+```
+```{r}
+par(mfrow=c(1,2))
+```
+#veiwing the corelation among attributes using circle method
+```{r}
+corrplot(M, method = "circle") 
+```
+#corelation graph using number method
+```{r}
+corrplot(M, method = "number") 
+```
+#creating a new numeric datset just to visual the using attributes only ahead.
+```{r}
+dd1<-data.frame(df$tau1,df$tau2,df$tau3,df$p1,df$p2,df$p4,df$g1,df$g3,df$g4,df$stab) 
+```
+
+```{r}
+N<-cor(dd1)
+```
+```{r}
+par(mfrow=c(1,2))
+```
+```{r}
+corrplot(N, method = "circle")
+```
+#No N/A in the dataset.
+```{r}
+which(is.na(df)) 
+```
+#Name of all the attributes
+```{r}
+colnames(df)
+```
+# Summary of the dataset
+```{r}
+summary(df)  
+```
+#this is classification problem and we have to determine the accurate algorithium to predict the stable and unstable system. 
+#This attribute has been deleted by analyzing the characterstics of summary that the mean is similar as well the data distribution in first quartile is similar. Also, there is negligible difference of .0001 of data variation in third quartile. This overlappping attribute can result in overfitting the dataset. That's the reason it's been Null.
+```{r}
+df$p3 <- NULL 
+```
+#As compared to other tau(1:3) has good varaition of data in first quartile, so tau4 being the least and overlapping close top of the values of tau1 and tau2, it has been Null.
+```{r}
+df$tau4 <-NULL 
+```
+#g2 and g3 data variation is very similar, to aviod overlapping, it's been Null.
+```{r}
+df$g2 <-NULL 
+```
+#Analyzing again the charactestics of the summary of "to be used attributes", p4 as well very corelated values with p2 but lets just keep it now to train our data.
+```{r}
+summary(df)  
+```
+#dimensions of to be used observations.
+```{r}
+dim(df)
+```
+#Packages are being loaded to be used for algorithiums as well displying the graphs;
+```{r}
+library(ggplot2)
+```
+
+```{r}
+library(ggthemes)
+```
+#Classification of classes among observations
+```{r}
+ggplot(df, aes(stabf)) +geom_bar()
+```
+
+```{r}
+library(dplyr)
+```
+#Classification of density of classes in the observations
+```{r}
+df %>%filter(stabf %in% c("stable", "unstable")) %>%ggplot(aes(stabf, fill = stabf))+geom_density()
+```
+#Library is called to do 3-D Scatter plots 
+```{r}
+library(Rcmdr)
+```
+
+```{r}
+attach(df)
+```
+#fun facts to observe the dataset among the classes in 3-D grphs which are going to open in different window.
+```{r}
+scatter3d(   g1, p1, p2, stabf, tau2)
+```
+```{r}
+scatter3d(g1, p1, p2, tau3, stabf)
+```
+```{r}
+scatter3d( tau1, p1,g1, stabf)
+```
+#getting each attribute a assigned name to load it on x,y,z for ploting 3-D graphs, or could be done directly as well.
+```{r}
+ p.1<-df$p1
+```
+```{r}
+ p.2<-df$p2
+```
+
+```{r}
+tau.2<-df$tau2
+```
+
+```{r}
+ g.1<-df$g1
+```
+
+```{r}
+scatter3d(x = g.1, y = p.2, z = p.1, groups = df$stabf, grid = FALSE)
+```
+```{r}
+scatter3d(x = tau.2, y = p.1, z = p.2, groups = df$stabf, grid = FALSE)
+```
+#using Naive Bayes
+```{r}
+library(rpart)
+```
+
+```{r}
+library(caTools)
+```
+```{r}
+library(rpart.plot)
+```
+
+```{r}
+library(caret)
+```
+
+```{r}
+library(e1071) 
+```
+
+```{r}
+library(rpart) 
+```
+
+```{r}
+library(randomForest) 
+```
+#A random seed (or seed state, or just seed) is a number (or vector) used to initialize a pseudorandom number generator.
+```{r}
+set.seed(150)
+```
+
+```{r}
+split=sample.split(df, SplitRatio = .95) 
+```
+
+```{r}
+training_set=subset(df,split==TRUE) 
+```
+
+```{r}
+test_set=subset(df,split==FALSE)
+```
+
+```{r}
+dim(training_set)   
+```
+```{r}
+dim(test_set)
+```
+```{r}
+library(scatterplot3d)
+```
+
+```{r}
+attach(df)
+```
+```{r}
+scatterplot3d(test_set, pch=16, highlight.3d=TRUE, main="3D Scatterplot test data set")
+```
+#removing target class 
+```{r}
+topredict_set<-test_set[1:10] 
+```
+
+```{r}
+scatterplot3d(training_set, pch=16, highlight.3d=TRUE, main="3D Scatterplot training dataset")
+```
+
+```{r}
+dim(topredict_set)
+```
+#model is being trained with training dataset , fitting the naive model
+```{r}
+model_naive<- naiveBayes(stabf ~ ., data = training_set)
+```
+```{r}
+head(model_naive)
+```
+#predicting the target class for trained dataset - The model creates the conditional probability for each feature separately. We also have the a-priori probabilities which indicates the distribution of our data. 
+```{r}
+preds_naive <- predict(model_naive, newdata = topredict_set)  
+```
+```{r}
+summary(preds_naive)
+```
+#confusion matrix to check accuracy of trained dataset on new data versus test dataset
+```{r}
+(conf_matrix_naive <- table(preds_naive, test_set$stabf))     
+```
+```{r}
+library(caret)
+```
+
+#In caret package when, we use confusion matrix, of the new data which we got from trained dataset versus test datasset
+```{r}
+confusionMatrix(conf_matrix_naive) 
+```
+#In the confusion matrix (as defined above), the true values are in columns and the predicted values in rows. So, the algorithm has correctly classified 321 out of (321+14) , Unstable are 566 out of (566+8) . That's pretty decent. However, we need to keep in mind that this could well be quirk of the choice of dataset. To address this, we should get a numerical measure of the efficacy of the algorithm and for different training and testing datasets. A simple measure of efficacy would be the fraction of predictions that the algorithm gets right. For the training/testing set above, this is simply (321+566)/(321+14+8+566) (see the confusion matrix above). The simplest way to calculate this in R is:
+```{r}
+mean(preds_naive==test_set$stabf)
+```
+
+```{r}
+F1 <- (2 * 0.9558  * 0.9589) / (0.9558  + 0.9589)
+```
+```{r}
+F1
+```
+```{r}
+library(randomForest)
+```
+
+#Use random forest
+```{r}
+model_rf <- randomForest(stabf~ ., data = training_set, importance=TRUE, ntree = 4) 
+```
+
+```{r}
+summary(model_rf)
+```
+
+
+```{r}
+preds_rf <- predict(model_rf, topredict_set)  
+```
+
+```{r}
+summary(preds_rf)
+```
+
+```{r}
+(conf_matrix_forest <- table(preds_rf, test_set$stabf))
+```
+```{r}
+confusionMatrix(conf_matrix_forest)  
+```
+```{r}
+F1_rf <- (2 * 1  * 1) / (1 + 1)
+```
+
+```{r}
+F1_rf
+```
+
+#Using Decision Tree
+```{r}
+model_dtree<- rpart(stabf~ ., data=training_set) 
+```
+```{r}
+preds_dtree <- predict(model_dtree,newdata=topredict_set, type = "class")
+```
+
+```{r}
+(conf_matrix_dtree <- table(preds_dtree, test_set$stabf))
+```
+```{r}
+confusionMatrix(conf_matrix_dtree)
+```
+```{r}
+F1_dt <- (2 * 1  * 1) / (1 + 1)
+```
+```{r}
+F1_dt
+```
+
+
+
+
+
+
+
+
+
