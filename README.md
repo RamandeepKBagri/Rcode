@@ -1,2 +1,2 @@
 # Rcode
-Problems are solved using machine learnig techniques.
+Problems are solved using machine learnig techniques using R.
