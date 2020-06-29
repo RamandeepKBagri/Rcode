@@ -1,2 +1,2 @@
 # Rcode
-Problems are solved using machine learning techniques using R.
+Problems are solved using R for predictive analytics coursework and advanced analytics coursework.
