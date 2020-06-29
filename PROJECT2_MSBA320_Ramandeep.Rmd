@@ -1,0 +1,326 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+x9=1:10 #define x vector, colon helps to define the series between 1 to 10
+```
+
+```{r}
+x9  #show x vector
+```
+```{r}
+y9=c(11,9,12,9,7,5,8,4,4,5) #define y vector, "c" is used as concatenate to define any numbers of y vector
+```
+```{r}
+y9     # show y vector
+```
+```{r}
+par(bg="beige") # this is optional to set the bg (background) color
+plot(x9,y9)   #simple ploting x variable and y variable
+```
+```{r}
+par(bg="aliceblue")
+plot(x9,y9,ylab="Response variable",xlab="Explanatory variable")  #in this step, label the x variable using xlab and lable y variable using ylab. below graph have default plot character 1, that's the reason small circles are used for plotting
+```
+```{r}
+par(bg="aquamarine")
+plot(x9,y9,pch=3,ylab="response variable", xlab="explanatory variable")  #now change the ploting character (using pch) to 3 and below representation changed from above
+```
+```{r}
+par(bg="coral1")
+plot(x9,y9,pch=2,ylab="response variable", xlab="explanatory variable")  #now change the ploting character (using pch) to 2 and below representation changed with open triangles 
+```
+```{r}
+par(bg="cadetblue2")
+plot (x9, y9, type='l', col='red') #type l defines to draw the line from each data point
+```
+
+```{r}
+x1=c(0,10) # create a single vector
+```
+```{r}
+y2=c(12,0) #create a anaother single vector
+```
+```{r}
+par(bg="chartreuse")
+plot (x1, y2, type='l', col='blue') #type l defines to draw the straight line from one data point to another
+```
+
+
+```{r}
+par(bg="cadetblue1")
+plot(x1, y2, type='l', xlim=c(0,10),ylim=c(12,0)) #type n gives null grapical representation within x and y lim
+lines(x1,y2,lty=1) #lty is the line type, 1 option gives solid line
+```
+```{r}
+par(bg="cornsilk")
+plot(x, y, type='n',  xlim=c(0,10),ylim=c(12,0))
+lines(x,y,lty=2, col="green") #line type 2 gives dotted line
+```
+```{r}
+x3=1:10 #define vector x3
+```
+
+```{r}
+y3=c(12,10,7,6,4,8,9,7,6,5) #define vector y3
+```
+
+
+```{r}
+par(bg="chocolate1")
+plot(x3,y3,pch=2,ylab="response variable", xlab="explanatory variable") #pch is plotting character that plot the data in graph using triangles with option "2"
+lines(x3,y3,lty=1, col="green") #it created the straight line between each two data points
+```
+```{r}
+par(bg="burlywood1")
+plot(x3,y3,pch=16,ylab="response variable", xlab="explanatory variable") #another option at 16 to plot the data points solid round shape 
+lines(x3,y3,lty=2, col="red") #line type is dotted using option "2"
+```
+```{r}
+par(bg="darkseagreen")
+plot(x3,y3,pch=12,ylab="response variable", xlab="explanatory variable")
+lines(x3,y3,lty=6, col="orange") 
+```
+
+```{r}
+par(bg="darkolivegreen1")
+plot(x,y,pch=2,ylab="response variable", xlab="explanatory variable")
+abline(lm(y~x), col = "red")  #lm is defining linear model where y is probably linear fucntion of x, abline function beautifully draws the linear line within the graph limits 
+```
+```{r}
+v=c(2,4,6,8,10) #define vector v
+```
+```{r}
+ d=c(8,5,6,6,2)  #define vector d
+```
+
+```{r}
+par(bg="darkslategray1")
+plot(x,y,pch=1,ylab="response variable", xlab="explanatory variable") #plotting data points with circles on plain graph
+abline(lm(y~x), col = "forestgreen") #defines to to be linear model within graph limits
+points(d,pch=5) #add points in the plotting graph 
+```
+
+```{r}
+par(bg="darkslategray2")
+plot(x,y,pch=2,ylab="response variable", xlab="explanatory variable")
+abline(lm(y~x), lty=3, col = "red")
+points(v,pch=3) #draw points of vector v on the graph, you can draw any random points on the graph using this
+lines(x,y,lty=3, col="brown") #create straight line between each data point
+```
+```{r}
+par(bg="gray90")
+plot(x,y,pch=1,ylab="response variable", xlab="explanatory variable")
+abline(lm(y~x), lty=1, col = "red") #solid line is linear model of y and x 
+points(d,pch=3) 
+lines(c(0,6),c(12,0),lty=2, col = "yellow") #created dotted line on graph
+```
+```{r}
+getwd()
+```
+
+```{r}
+weather=read.table("C:/Users/raman/OneDrive/files/documents//SilwoodWeather.txt",header=T) 
+```
+```{r}
+names(weather) 
+```
+```{r}
+attach(weather) #attach dataframe
+month<-factor(month) #define month be a factor
+```
+```{r}
+is.factor(month) #check if month is a factor?
+```
+
+```{r}
+par(bg="lemonchiffon1")
+plot(month,upper) #draw boxplot, as syntax is same
+```
+#pie chart
+```{r}
+par(bg="lightcyan1")
+pie(rep(1, 30), col = rainbow(30), radius = 0.9) #pis is divided into 30 sectors, with rainbow colors , 0.9 is overall radius of pie chart
+```
+```{r}
+par(bg="lightsalmon")
+pie(rep(1, 10), col = rainbow(10), radius = 0.5) #pie with 10 sectors, 10 rainbow colors and radius of pie is 0.5
+```
+```{r}
+x7=seq(0,10,0.1) #values of x7
+```
+```{r}
+y1 <- 2 + 3 * x - 0.25 * x ^ 2 #define two vectors y1 and y2
+ 
+y2 <- 3 + 3.3 * x - 0.3 * x ^ 2 
+```
+```{r}
+par(bg="ghostwhite")
+plot(x,y2,type="n",ylab="") #draw a null graph
+lines(x,y2,col="red") #plot y2
+lines(x,y1,col="blue")  #using line plot y1
+```
+
+
+```{r}
+jantemps=read.table("C:/Users/raman/OneDrive/files/documents//jantemp.txt",header=T) 
+```
+```{r}
+attach(jantemps) 
+names(jantemps)
+```
+```{r}
+max(tmax) 
+```
+
+```{r}
+min(tmin) 
+```
+
+```{r}
+plot(day,tmax,ylim=c(-12,12),type="n",ylab="Temperature") #plot the null graph with limits of the graph -12 to 12 (it is easy to check the features min and maximum point and set the limits)
+```
+```{r}
+par(bg="lightskyblue1")
+plot(day,tmax,ylim=c(-12,12),type="n",ylab="Temperature")
+points(day,tmin,col="violetred1",pch=16) #plot all tmin datapoints
+points(day,tmax,col="yellow",pch=16) #plot all tmax data points
+
+for (i in 1:31) lines(c(i ,i ), c( tmin[i], tmax[i] ), col="green") ##ploting each day from 1 to 31 (i), joining from tmin (i) to tmax (i)
+```
+#histograms
+```{r}
+x8 = rnorm(1000) #any 1000 random numbers with mean 0 and standard deviation 1
+```
+```{r}
+par(bg="cornsilk")
+hist(x, col = "lavender",  main = "") 
+```
+#color with piechart
+
+```{r}
+fate <- c(0.12, 0.3, 0.26, 0.16, 0.04, 0.12) 
+```
+```{r}
+names(fate)<-c("Ragwort", "Thistle", "Willowherb", "Rush", "Orchid","Knapweed") #give labels to the sectors of piechart
+```
+```{r}
+par(bg="wheat1")
+pie(fate, col = c("purple", "violetred1",  "green3", "cornsilk", "cyan",  "white"))
+```
+
+```{r}
+getwd()
+```
+
+```{r}
+pollution=read.csv("C:/Users/raman/OneDrive/files/documents//pollute.csv",header=T) 
+```
+```{r}
+names(pollution) 
+```
+```{r}
+pairs(pollution,panel=panel.smooth) #creates matrix with y function of x and x funtion of y
+```
+#Tree based models
+```{r}
+library(tree) #before calling package "tree", install package "tree" and then call in library to use
+```
+```{r}
+regtree = tree(pollution ~ ., data=pollution) #tree model describes the variable variation in the data frame
+```
+```{r}
+plot(regtree) #plot is done with same syntax using regplot to plot tree model 
+text(regtree) #used to add text to the tree model 
+```
+```{r}
+attach(pollution) 
+```
+
+```{r}
+coplot( pollution ~ industry | population) #
+```
+
+#graphical parameters
+```{r}
+ par(mfrow=c(1,1)) #default single plot screen 
+```
+```{r}
+getwd()
+```
+
+```{r}
+par(mfrow=c(1,2)) #2 plots in one column
+```
+```{r}
+par(mfrow=c(2,2)) #2plots in 2 columns
+```
+```{r}
+plotdata=read.delim("C:/Users/raman/OneDrive/files/documents//plotdata.txt", header =T)
+```
+```{r}
+attach(plotdata) 
+names(plotdata)
+```
+
+```{r}
+par(bg="lavender")
+par(mfrow=c(2,2)) #2 plot in each 2 columns 
+plot(x9,y9,type="l") 
+plot(x9,y9,log="xy",type="l") #same data points with different logs makes the difference in visualization
+plot(x9,y9,log="y", type="l") 
+plot(x9,y9,log="x", type="l") 
+```
+```{r}
+par(mfrow=c(1,2)) 
+plot(x,y,type="l") 
+plot(x,y,ylim=c(0,50),type="l")
+```
+```{r}
+getwd()
+```
+
+```{r}
+map.places =read.delim("C:/Users/raman/OneDrive/files/documents//map.places.txt",header=T) 
+```
+```{r}
+attach(map.places) 
+names(map.places)
+```
+
+```{r}
+map.data=read.delim("C:/Users/raman/OneDrive/files/documents//bowens.txt",header=T) 
+```
+```{r}
+attach(map.data) 
+names(map.data)
+```
+```{r}
+nn= ifelse(north<60,north+100,north) 
+```
+```{r}
+par(bg="turquoise2")
+nn= ifelse(north<60,north+100,north) #all the places are defined in terms of north, east is defined in term of north, north for location purpose
+plot(c(20,100),c(60,110),type="n",xlab="",ylab="") #plot null graph eastings from 20 to 100, northing from 60 to 110
+
+for (i in 1:length(wanted)){ ii <- which(place == as.character(wanted[i])) 
+text(east[ii], nn[ii], as.character(place[ii]), cex = 0.6) } #select exact location of the place and use text to plot that name
+```
+
+#character allignment
+```{r}
+labels=letters[1:10] 
+labels 
+```
+```{r}
+par(mfrow=c(1,2)) 
+plot(1:10,1:10,type="n") #plot for scaling the axes
+text(1:10,1:10,labels,cex=2) 
+plot(1:10,1:10,type="n") 
+text(1:10,10:1,labels,cex=2,srt=180) 
+```
+```{r}
+
+```
+
