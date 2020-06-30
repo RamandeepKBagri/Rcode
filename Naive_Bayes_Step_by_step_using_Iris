@@ -1,6 +1,6 @@
 ---
-title: "Assignment3"
-author: "raman"
+Title: "Naive bayes step by step, Dataset Iris"
+author: "Ramandeep"
 date: "May 6, 2019"
 output:
   pdf_document: default
