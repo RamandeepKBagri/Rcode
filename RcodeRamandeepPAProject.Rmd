@@ -1,6 +1,6 @@
 ---
-title: "PAproject"
-author: "raman"
+title: "Predictive analytics"
+author: "Ramandeep"
 date: "June 8, 2019"
 output: pdf_document
 ---
@@ -60,7 +60,7 @@ colnames(df)
 ```{r}
 summary(df)  
 ```
-#this is classification problem and we have to determine the accurate algorithium to predict the stable and unstable system. 
+#This is classification problem and we have to determine the accurate algorithium to predict the stable and unstable system. 
 #This attribute has been deleted by analyzing the characterstics of summary that the mean is similar as well the data distribution in first quartile is similar. Also, there is negligible difference of .0001 of data variation in third quartile. This overlappping attribute can result in overfitting the dataset. That's the reason it's been Null.
 ```{r}
 df$p3 <- NULL 
@@ -285,7 +285,6 @@ F1_rf <- (2 * 1  * 1) / (1 + 1)
 ```{r}
 F1_rf
 ```
-
 #Using Decision Tree
 ```{r}
 model_dtree<- rpart(stabf~ ., data=training_set) 
@@ -306,12 +305,3 @@ F1_dt <- (2 * 1  * 1) / (1 + 1)
 ```{r}
 F1_dt
 ```
-
-
-
-
-
-
-
-
-
